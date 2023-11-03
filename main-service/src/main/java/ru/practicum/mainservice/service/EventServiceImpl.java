@@ -292,7 +292,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> findAllEventByIds(List<Integer> eventIds) {
+    public Set<Event> findAllEventByIds(Set<Integer> eventIds) {
         return eventRepository.findAllById(eventIds);
     }
 

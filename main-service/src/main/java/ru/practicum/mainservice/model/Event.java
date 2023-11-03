@@ -9,6 +9,7 @@ import ru.practicum.mainservice.enums.EventState;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "events")
@@ -66,5 +67,5 @@ public class Event {
     private String title;
 
     @ManyToMany(mappedBy = "events")
-    private List<Compilation> compilations;
+    private Set<Compilation> compilations;
 }

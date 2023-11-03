@@ -11,6 +11,7 @@ import ru.practicum.mainservice.model.Event;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface EventService {
     Event getEventById(int eventId);
@@ -35,7 +36,7 @@ public interface EventService {
 
     List<EventDTO> findAllByIds(List<Integer> eventIds);
 
-    List<Event> findAllEventByIds(List<Integer> eventIds);
+    Set<Event> findAllEventByIds(Set<Integer> eventIds);
 
     void addStatistic(HttpServletRequest request);
 

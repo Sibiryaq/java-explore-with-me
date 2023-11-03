@@ -6,6 +6,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "compilations")
@@ -31,7 +32,7 @@ public class Compilation {
                     referencedColumnName = "event_id"
             )
     )
-    private List<Event> events;
+    private Set<Event> events;
 
     @Column(name = "pinned", nullable = false)
     private boolean pinned;

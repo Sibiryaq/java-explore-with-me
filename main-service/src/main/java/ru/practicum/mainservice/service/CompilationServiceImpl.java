@@ -18,6 +18,7 @@ import ru.practicum.mainservice.util.OffsetBasedPageRequest;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,8 +32,8 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     @Transactional
     public CompilationDTO createCompilation(CreateCompilationDTO compilation) {
-        List<Event> events = compilation.getEvents().isEmpty()
-                ? Collections.emptyList()
+        Set<Event> events = compilation.getEvents().isEmpty()
+                ? Collections.emptySet()
                 : eventService.findAllEventByIds(compilation.getEvents());
         Compilation newCompilation = new Compilation();
         newCompilation.setTitle(compilation.getTitle());
@@ -68,8 +69,8 @@ public class CompilationServiceImpl implements CompilationService {
     @Transactional
     public CompilationDTO updateCompilation(int compilationId, UpdateCompilationDTO compilation) {
         Compilation compilationFromDB = getById(compilationId);
-        List<Event> events = compilation.getEvents().isEmpty()
-                ? Collections.emptyList() : eventService.findAllEventByIds(compilation.getEvents());
+        Set<Event> events = compilation.getEvents().isEmpty()
+                ? Collections.emptySet() : eventService.findAllEventByIds(compilation.getEvents());
         compilationFromDB.setEvents(events);
         compilationFromDB.setTitle(compilation.getTitle());
         compilationFromDB.setPinned(compilation.getPinned());
