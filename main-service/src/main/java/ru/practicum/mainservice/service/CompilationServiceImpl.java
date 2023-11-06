@@ -13,11 +13,10 @@ import ru.practicum.mainservice.mapper.CompilationMapper;
 import ru.practicum.mainservice.model.Compilation;
 import ru.practicum.mainservice.model.Event;
 import ru.practicum.mainservice.repository.CompilationRepository;
+import ru.practicum.mainservice.repository.EventRepository;
 import ru.practicum.mainservice.util.OffsetBasedPageRequest;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,18 +26,37 @@ public class CompilationServiceImpl implements CompilationService {
     private final CompilationRepository compilationRepository;
     private final CompilationMapper compilationMapper;
     private final EventService eventService;
+    private final EventRepository eventRepository;
 
     @Override
     @Transactional
     public CompilationDTO createCompilation(CreateCompilationDTO compilation) {
-        List<Event> events = compilation.getEvents().isEmpty()
-                ? Collections.emptyList()
-                : eventService.findAllEventByIds(compilation.getEvents());
         Compilation newCompilation = new Compilation();
+        Set<Integer> eventsIds = compilation.getEvents();
+        if (eventsIds !=null) {
+            List<Event> events = eventRepository.findAllById(eventsIds);
+            newCompilation.setEvents(new HashSet<>(events));
+
+        }
         newCompilation.setTitle(compilation.getTitle());
         newCompilation.setPinned(compilation.getPinned());
-        newCompilation.setEvents(events);
+
         return compilationMapper.toDto(compilationRepository.save(newCompilation));
+    }
+
+    @Override
+    @Transactional
+    public CompilationDTO updateCompilation(int compilationId, UpdateCompilationDTO compilation) {
+        Compilation compilationFromDB = getById(compilationId);
+        Set<Integer> eventsIds = compilation.getEvents();
+        if (eventsIds != null) {
+            List<Event> events = eventRepository.findAllById(eventsIds);
+            compilationFromDB.setEvents(new HashSet<>(events));
+        }
+
+        compilationFromDB.setTitle(compilation.getTitle());
+        compilationFromDB.setPinned(compilation.getPinned());
+        return compilationMapper.toDto(compilationFromDB);
     }
 
     @Override
@@ -62,18 +80,6 @@ public class CompilationServiceImpl implements CompilationService {
     public void deleteCompilation(int compilationId) {
         Compilation compilation = getById(compilationId);
         compilationRepository.delete(compilation);
-    }
-
-    @Override
-    @Transactional
-    public CompilationDTO updateCompilation(int compilationId, UpdateCompilationDTO compilation) {
-        Compilation compilationFromDB = getById(compilationId);
-        List<Event> events = compilation.getEvents().isEmpty()
-                ? Collections.emptyList() : eventService.findAllEventByIds(compilation.getEvents());
-        compilationFromDB.setEvents(events);
-        compilationFromDB.setTitle(compilation.getTitle());
-        compilationFromDB.setPinned(compilation.getPinned());
-        return compilationMapper.toDto(compilationFromDB);
     }
 
     @Override

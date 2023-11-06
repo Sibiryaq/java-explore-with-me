@@ -9,12 +9,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CreateCompilationDTO {
-    @UniqueElements
-    private List<Integer> events = Collections.emptyList();
+    private Set<Integer> events;
     private Boolean pinned = false;
     @NotNull
     @NotBlank
