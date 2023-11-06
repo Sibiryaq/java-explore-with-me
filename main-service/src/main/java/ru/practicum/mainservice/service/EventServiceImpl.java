@@ -284,17 +284,17 @@ public class EventServiceImpl implements EventService {
         return toDto(events);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<EventDTO> findAllByIds(List<Integer> eventIds) {
-        List<Event> events = eventRepository.findAllById(eventIds);
-        return toDto(events);
-    }
+//    @Override
+//    @Transactional(readOnly = true)
+//    public List<EventDTO> findAllByIds(List<Integer> eventIds) {
+//        List<Event> events = eventRepository.findAllById(eventIds);
+//        return toDto(events);
+//    }
 
-    @Override
-    public List<Event> findAllEventByIds(List<Integer> eventIds) {
-        return eventRepository.findAllById(eventIds);
-    }
+//    @Override
+//    public Set<Event> findAllEventByIds(Set<Integer> eventIds) {
+//        return eventRepository.findAllById(eventIds);
+//    }
 
     @Override
     public void addStatistic(HttpServletRequest request) {
