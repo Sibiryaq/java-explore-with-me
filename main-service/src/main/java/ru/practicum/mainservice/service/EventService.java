@@ -33,10 +33,6 @@ public interface EventService {
 
     List<EventDTO> findEvents(AdminEventFilterDTO eventFilter);
 
-//    List<EventDTO> findAllByIds(List<Integer> eventIds);
-
-//    Set<Event> findAllEventByIds(Set<Integer> eventIds);
-
     void addStatistic(HttpServletRequest request);
 
     Map<Integer, Integer> getViews(List<Event> events);
