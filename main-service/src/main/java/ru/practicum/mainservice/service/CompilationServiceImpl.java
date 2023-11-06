@@ -33,11 +33,9 @@ public class CompilationServiceImpl implements CompilationService {
     public CompilationDTO createCompilation(CreateCompilationDTO compilation) {
         Compilation newCompilation = new Compilation();
         Set<Integer> eventsIds = compilation.getEvents();
-
         if (eventsIds != null) {
             List<Event> events = eventRepository.findAllById(eventsIds);
             newCompilation.setEvents(new HashSet<>(events));
-
         }
         newCompilation.setTitle(compilation.getTitle());
         newCompilation.setPinned(compilation.getPinned());
@@ -50,12 +48,10 @@ public class CompilationServiceImpl implements CompilationService {
     public CompilationDTO updateCompilation(int compilationId, UpdateCompilationDTO compilation) {
         Compilation compilationFromDB = getById(compilationId);
         Set<Integer> eventsIds = compilation.getEvents();
-
         if (eventsIds != null) {
             List<Event> events = eventRepository.findAllById(eventsIds);
             compilationFromDB.setEvents(new HashSet<>(events));
         }
-
         compilationFromDB.setTitle(compilation.getTitle());
         compilationFromDB.setPinned(compilation.getPinned());
         return compilationMapper.toDto(compilationFromDB);
