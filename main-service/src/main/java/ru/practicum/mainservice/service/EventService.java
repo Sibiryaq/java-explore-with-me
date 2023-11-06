@@ -11,7 +11,6 @@ import ru.practicum.mainservice.model.Event;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public interface EventService {
     Event getEventById(int eventId);

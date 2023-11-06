@@ -1,11 +1,8 @@
 package ru.practicum.mainservice.dto.compilation;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.validation.constraints.Size;
-import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 @Data
