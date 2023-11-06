@@ -25,7 +25,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     private final CompilationRepository compilationRepository;
     private final CompilationMapper compilationMapper;
-    private final EventService eventService;
+    //private final EventService eventService;
     private final EventRepository eventRepository;
 
     @Override
@@ -33,7 +33,8 @@ public class CompilationServiceImpl implements CompilationService {
     public CompilationDTO createCompilation(CreateCompilationDTO compilation) {
         Compilation newCompilation = new Compilation();
         Set<Integer> eventsIds = compilation.getEvents();
-        if (eventsIds !=null) {
+
+        if (eventsIds != null) {
             List<Event> events = eventRepository.findAllById(eventsIds);
             newCompilation.setEvents(new HashSet<>(events));
 
@@ -49,6 +50,7 @@ public class CompilationServiceImpl implements CompilationService {
     public CompilationDTO updateCompilation(int compilationId, UpdateCompilationDTO compilation) {
         Compilation compilationFromDB = getById(compilationId);
         Set<Integer> eventsIds = compilation.getEvents();
+
         if (eventsIds != null) {
             List<Event> events = eventRepository.findAllById(eventsIds);
             compilationFromDB.setEvents(new HashSet<>(events));
@@ -69,10 +71,7 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     @Transactional(readOnly = true)
     public Compilation getById(int compilationId) {
-        return compilationRepository.findById(compilationId)
-                .orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, String.format(
-                        "Compilation with id=%s was not found", compilationId
-                ), "The required object was not found."));
+        return compilationRepository.findById(compilationId).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND, String.format("Compilation with id=%s was not found", compilationId), "The required object was not found."));
     }
 
     @Override
@@ -87,10 +86,8 @@ public class CompilationServiceImpl implements CompilationService {
     public List<CompilationDTO> getCompilations(Boolean pinned, int from, int size) {
         Pageable pageable = new OffsetBasedPageRequest(from, size);
         List<Compilation> res;
-        if (Objects.nonNull(pinned))
-            res = compilationRepository.findAllByPinned(pinned, pageable);
-        else
-            res = compilationRepository.findAll(pageable).getContent();
+        if (Objects.nonNull(pinned)) res = compilationRepository.findAllByPinned(pinned, pageable);
+        else res = compilationRepository.findAll(pageable).getContent();
         return res.stream().map(compilationMapper::toDto).collect(Collectors.toList());
     }
 }
