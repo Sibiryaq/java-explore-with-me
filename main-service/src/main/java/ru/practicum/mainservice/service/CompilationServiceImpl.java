@@ -66,8 +66,7 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     @Transactional(readOnly = true)
     public Compilation getById(int compilationId) {
-        return compilationRepository.findById(compilationId).
-                orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND,
+        return compilationRepository.findById(compilationId).orElseThrow(() -> new APIException(HttpStatus.NOT_FOUND,
                         String.format("Compilation with id=%s was not found", compilationId),
                         "The required object was not found."));
     }
